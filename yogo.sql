@@ -54,10 +54,11 @@ CREATE TABLE `booking` (
   `destination_location` varchar(200) DEFAULT NULL,
   `timer` datetime DEFAULT NULL,
   `status` varchar(200) DEFAULT NULL,
+  `service_id` int DEFAULT NULL,
   PRIMARY KEY (`id_booking`),
   KEY `fk_booking_service` (`id_service`),
   CONSTRAINT `fk_booking_service` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +67,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (13,5,2,'Nam Định','Hà Nội',NULL,'accept'),(14,3,1,'Cau giay','Ha Dong',NULL,'accept'),(15,3,1,'Cau giay','Ha Dong',NULL,'accept'),(16,5,2,'Nam Định','Hà Nội',NULL,'accept');
+INSERT INTO `booking` VALUES (13,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(14,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(15,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(16,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(17,5,1,'Hà Nội','Nam Định',NULL,'cancel',NULL),(18,5,NULL,'Hà Nội','Nam Định',NULL,'accept',NULL);
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,6 +83,7 @@ CREATE TABLE `bookmark` (
   `name` varchar(100) DEFAULT NULL,
   `id_user` int NOT NULL,
   `default_location` varchar(100) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id_bookmark`),
   KEY `fk_bookmark_user` (`id_user`),
   CONSTRAINT `fk_bookmark_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
@@ -94,7 +96,7 @@ CREATE TABLE `bookmark` (
 
 LOCK TABLES `bookmark` WRITE;
 /*!40000 ALTER TABLE `bookmark` DISABLE KEYS */;
-INSERT INTO `bookmark` VALUES (1,'58 Đào Tấn',1,'[21.0345932645291,105.807838452731]'),(2,'Cầu Giấy',1,'[21.03087,105.80142]'),(3,'Nguyễn Khánh Toàn',1,'[21.03776,105.80081]'),(4,'Công viên Thủ Lệ',1,'[20.32737,106.26667]'),(5,'58 Đào Tấn',2,'[21.0345932645291,105.807838452731]'),(6,'Cầu Giấy',2,'[21.03087,105.80142]'),(7,'Nguyễn Khánh Toàn',3,'[21.03776,105.80081]'),(8,'Công viên Thủ Lệ',3,'[20.32737,106.26667]');
+INSERT INTO `bookmark` VALUES (1,'58 Đào Tấn',1,'[21.0345932645291,105.807838452731]',NULL),(2,'Cầu Giấy',1,'[21.03087,105.80142]',NULL),(3,'Nguyễn Khánh Toàn',1,'[21.03776,105.80081]',NULL),(4,'Công viên Thủ Lệ',1,'[20.32737,106.26667]',NULL),(5,'58 Đào Tấn',2,'[21.0345932645291,105.807838452731]',NULL),(6,'Cầu Giấy',2,'[21.03087,105.80142]',NULL),(7,'Nguyễn Khánh Toàn',3,'[21.03776,105.80081]',NULL),(8,'Công viên Thủ Lệ',3,'[20.32737,106.26667]',NULL);
 /*!40000 ALTER TABLE `bookmark` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +201,7 @@ CREATE TABLE `oder` (
   KEY `fk_oder_booking` (`id_booking`),
   CONSTRAINT `fk_oder_booking` FOREIGN KEY (`id_booking`) REFERENCES `booking` (`id_booking`),
   CONSTRAINT `fk_oder_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +210,7 @@ CREATE TABLE `oder` (
 
 LOCK TABLES `oder` WRITE;
 /*!40000 ALTER TABLE `oder` DISABLE KEYS */;
-INSERT INTO `oder` VALUES (1,'2021-11-10 00:03:06',1,13,'accept'),(2,'2021-11-10 10:52:43',1,13,'accept'),(3,'2021-11-10 12:56:47',1,14,'accept');
+INSERT INTO `oder` VALUES (1,'2021-11-10 00:03:06',1,13,'accept'),(2,'2021-11-10 10:52:43',1,13,'accept'),(3,'2021-11-10 12:56:47',1,14,'accept'),(4,'2022-10-29 22:56:57',1,17,'cancel'),(5,NULL,1,17,'accept');
 /*!40000 ALTER TABLE `oder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +225,7 @@ CREATE TABLE `payment` (
   `id_payment` int NOT NULL AUTO_INCREMENT,
   `price` float DEFAULT NULL,
   PRIMARY KEY (`id_payment`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +234,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,12500),(2,881710);
+INSERT INTO `payment` VALUES (1,12500),(2,881710),(3,372352),(4,372352);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,11 +300,11 @@ CREATE TABLE `user` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `gender` int DEFAULT NULL,
+  `gender` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `type` char(1) DEFAULT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -311,7 +313,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Vinh','Nguyễn','Hà Nội',1,'nguyenducvinhthd@gmail.com','c'),(2,'Thành','Nguyễn','Nam Định',1,'thanh@gmail.com','c'),(3,'Hiếu','Nguyễn','Nam Định',1,'hieu@gmai.com','c'),(13,'Nam','Nguyễn','Phú Thọ',1,'nam@gmail.com','c'),(14,'Nguyễn','Tuấn','Hải Phòng',1,'tuan@gmail.com','c'),(15,'Long','Lê','Lạng Sơn',1,'long@gmail.com','d'),(16,'Hải','Phạm','Thái Bình',1,'haipham@gmail.com','d');
+INSERT INTO `user` VALUES (1,'Vinh','Nguyễn','Hà Nội','MALE','nguyenducvinhthd@gmail.com','c'),(2,'Thành','Nguyễn','Nam Định','MALE','thanh@gmail.com','c'),(3,'Hiếu','Nguyễn','Nam Định','MALE','hieu@gmai.com','c'),(13,'Nam','Nguyễn','Phú Thọ','MALE','nam@gmail.com','c'),(14,'Nguyễn','Tuấn','Hải Phòng','MALE','tuan@gmail.com','c'),(15,'Long','Lê','Lạng Sơn','MALE','long@gmail.com','d'),(16,'Hải','Phạm','Thái Bình','MALE','haipham@gmail.com','d'),(17,'vinh','nguyen','Hà Nội','MALE','vinh@gmail.com','c'),(18,'vinh','nguyen','Hà Nội','MALE','vinh@gmail.com','c'),(19,'Linh','nguyen','Hà Nam','MALE','linh@gmail.com','c'),(20,'Linh','nguyen','Hà Nam','MALE','linh@gmail.com','c'),(21,'Vinh','Nguyễn','Nam Định','MALE','vinhdadsa@gmail.com','c'),(22,'Thanh','Nguyen','Nam Định','MALE','thanh217@gmail.com','c'),(23,'Thanh','Nguyen','Nam Định','MALE','thanh217@gmail.com','c');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -324,4 +326,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-16 21:52:12
+-- Dump completed on 2022-11-05  0:30:26
