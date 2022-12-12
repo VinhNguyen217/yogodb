@@ -58,7 +58,7 @@ CREATE TABLE `booking` (
   PRIMARY KEY (`id_booking`),
   KEY `fk_booking_service` (`id_service`),
   CONSTRAINT `fk_booking_service` FOREIGN KEY (`id_service`) REFERENCES `service` (`id_service`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 /*!40000 ALTER TABLE `booking` DISABLE KEYS */;
-INSERT INTO `booking` VALUES (13,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(14,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(15,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(16,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(17,5,1,'Hà Nội','Nam Định',NULL,'cancel',NULL),(18,5,NULL,'Hà Nội','Nam Định',NULL,'accept',NULL);
+INSERT INTO `booking` VALUES (13,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(14,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(15,3,1,'Cau giay','Ha Dong',NULL,'accept',NULL),(16,5,2,'Nam Định','Hà Nội',NULL,'accept',NULL),(17,5,1,'Hà Nội','Nam Định',NULL,'cancel',NULL),(18,5,NULL,'Hà Nội','Nam Định',NULL,'accept',NULL),(19,5,NULL,'Đào Tấn','Nguyễn Khánh Toàn',NULL,'accept',NULL);
 /*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +85,7 @@ CREATE TABLE `bookmark` (
   `default_location` varchar(100) DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id_bookmark`),
-  KEY `fk_bookmark_user` (`id_user`),
-  CONSTRAINT `fk_bookmark_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  KEY `fk_bookmark_user` (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -124,66 +123,6 @@ LOCK TABLES `category` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `history`
---
-
-DROP TABLE IF EXISTS `history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `history` (
-  `id_history` int NOT NULL AUTO_INCREMENT,
-  `time` datetime DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `id_user` int NOT NULL,
-  PRIMARY KEY (`id_history`),
-  KEY `fk_history_user` (`id_user`),
-  CONSTRAINT `fk_history_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `history`
---
-
-LOCK TABLES `history` WRITE;
-/*!40000 ALTER TABLE `history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `history` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `invoice`
---
-
-DROP TABLE IF EXISTS `invoice`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `invoice` (
-  `id_invoice` int NOT NULL AUTO_INCREMENT,
-  `total_distance` float DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
-  `id_payment` int DEFAULT NULL,
-  `id_booking` int DEFAULT NULL,
-  `id_user` int DEFAULT NULL,
-  PRIMARY KEY (`id_invoice`),
-  KEY `fk_invoice_payment` (`id_payment`),
-  KEY `fk_invoice_booking` (`id_booking`),
-  KEY `fk_invoice_user` (`id_user`),
-  CONSTRAINT `fk_invoice_booking` FOREIGN KEY (`id_booking`) REFERENCES `booking` (`id_booking`),
-  CONSTRAINT `fk_invoice_payment` FOREIGN KEY (`id_payment`) REFERENCES `payment` (`id_payment`),
-  CONSTRAINT `fk_invoice_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoice`
---
-
-LOCK TABLES `invoice` WRITE;
-/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `oder`
 --
 
@@ -199,8 +138,7 @@ CREATE TABLE `oder` (
   PRIMARY KEY (`id_oder`),
   KEY `fk_oder_user` (`id_user`),
   KEY `fk_oder_booking` (`id_booking`),
-  CONSTRAINT `fk_oder_booking` FOREIGN KEY (`id_booking`) REFERENCES `booking` (`id_booking`),
-  CONSTRAINT `fk_oder_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  CONSTRAINT `fk_oder_booking` FOREIGN KEY (`id_booking`) REFERENCES `booking` (`id_booking`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -210,7 +148,6 @@ CREATE TABLE `oder` (
 
 LOCK TABLES `oder` WRITE;
 /*!40000 ALTER TABLE `oder` DISABLE KEYS */;
-INSERT INTO `oder` VALUES (1,'2021-11-10 00:03:06',1,13,'accept'),(2,'2021-11-10 10:52:43',1,13,'accept'),(3,'2021-11-10 12:56:47',1,14,'accept'),(4,'2022-10-29 22:56:57',1,17,'cancel'),(5,NULL,1,17,'accept');
 /*!40000 ALTER TABLE `oder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,14 +234,14 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) DEFAULT NULL,
-  `last_name` varchar(50) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
-  `gender` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `type` char(1) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +250,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Vinh','Nguyễn','Hà Nội','MALE','nguyenducvinhthd@gmail.com','c'),(2,'Thành','Nguyễn','Nam Định','MALE','thanh@gmail.com','c'),(3,'Hiếu','Nguyễn','Nam Định','MALE','hieu@gmai.com','c'),(13,'Nam','Nguyễn','Phú Thọ','MALE','nam@gmail.com','c'),(14,'Nguyễn','Tuấn','Hải Phòng','MALE','tuan@gmail.com','c'),(15,'Long','Lê','Lạng Sơn','MALE','long@gmail.com','d'),(16,'Hải','Phạm','Thái Bình','MALE','haipham@gmail.com','d'),(17,'vinh','nguyen','Hà Nội','MALE','vinh@gmail.com','c'),(18,'vinh','nguyen','Hà Nội','MALE','vinh@gmail.com','c'),(19,'Linh','nguyen','Hà Nam','MALE','linh@gmail.com','c'),(20,'Linh','nguyen','Hà Nam','MALE','linh@gmail.com','c'),(21,'Vinh','Nguyễn','Nam Định','MALE','vinhdadsa@gmail.com','c'),(22,'Thanh','Nguyen','Nam Định','MALE','thanh217@gmail.com','c'),(23,'Thanh','Nguyen','Nam Định','MALE','thanh217@gmail.com','c');
+INSERT INTO `user` VALUES (1,'Nam Định','vinh@gmail.com','$2a$10$EQVqjzCF.nVdfJqKE.Qcm.Tnza156Yc2OeEnMZ.JVqIo51QKZmIBy','0947298695','ROLE_CLIENT','vinhnguyen'),(2,'Nam Định','thanh@gmail.com','$2a$10$CxinSsuBfrESib4AGsLpVuFQ5yFlf36/rCN40CrhRcQ.gRQh53Ftq','0947298695','ROLE_CLIENT','thanhnguyen'),(3,'Nam Định','linh@gmail.com','$2a$10$ZhvI8o6Q0Fux/iuaFs026OVv2ZDYJGRXoHr23GzeLnfULqCDc9Zya','0947298695','ROLE_DRIVER','linhsucvat');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -326,4 +263,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-05  0:30:26
+-- Dump completed on 2022-12-12 23:46:37
